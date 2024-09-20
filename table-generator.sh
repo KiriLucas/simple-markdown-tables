@@ -37,7 +37,7 @@ create_rows() {
             continue
         fi
 
-        local new_row="${row/:/" | "}"
+        local new_row="${row//:/" | "}"
         parsed+="| $new_row |\n"
 
         ((row_counter++))
