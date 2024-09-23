@@ -102,9 +102,7 @@ create_table() {
     echo -e "$table_columns\n$table_rows"
 }
 
-raw_columns="header1:header2:header3"
-raw_rows+="-column1:column2:column3"
-raw_rows+="-columnA:columnB:columnC"
-raw_rows+="-columnX:columnY:columnZ"
+sample_headers="header1:header2:header3"
+sample_rows="-column1:column2:column3-columnA:columnB:columnC-columnX:columnY:columnZ"
 
-create_table "${raw_columns}" "$raw_rows"
+create_table "${1:-"$sample_headers"}" "${2:-"$sample_rows"}"
