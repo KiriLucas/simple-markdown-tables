@@ -56,40 +56,53 @@ get_header_counting() {
 
 create_columns() {
     local columns=$1
-
-    local table_header
     local separator
-    local header_counter
-    local header_index
+    local final_header
+    local separators
+    local new_header
 
-    header_counter=$(get_header_counting "$columns")
-    header_index=0
+    new_header="${columns//:/"** | **"}"
+    final_header="| **${new_header^^}** |"
+    separators=$(build_separator "$final_header")
 
-    IFS=':' read -r -a columns_list <<<"${columns#:}"
-    while [ $header_index -lt "$header_counter" ]; do
-        local column=${columns_list[$header_index]}
-        local separator_counter=0
-        local column_size=${#column}
-        table_header+="**${column^^}** | "
+    echo "$final_header"
+    echo "$separators"
+}
 
-        while [ "$separator_counter" -le "$column_size" ]; do
-            if [ "$separator_counter" -eq "$column_size" ]; then
+
+build_separator() {
+    local rows=$1
+
+    separator=""
+    IFS='|' read -r -a rows_list <<<"${rows}"
+    for row in "${rows_list[@]}"; do
+        if [[ -z $row ]]; then
+            continue
+        fi
+        # row="${row//"*"/""}"
+        row=${row#" "}
+        row=${row%" "}
+
+        index=0
+        separator+="|:"
+        row_length=${#row}
+        while [ $index -lt "$row_length" ]; do
+
+            if [ "$index" -eq "$(("$row_length" - 1))" ]; then
                 separator+="-:"
-            elif [ "$separator_counter" -eq "0" ]; then
-                separator+="|:"
-            elif [ "$separator_counter" -lt "$column_size" ]; then
-                separator+="-"
+                ((index++))
+                continue
             fi
 
-            ((separator_counter++))
+            separator+="-"
+            ((index++))
         done
 
-        ((header_index++))
     done
+    separator+="|"
 
-    table_header+="\n"
+    echo "$separator"
 
-    echo -e "| ${table_header}${separator} |"
 }
 
 create_table() {
