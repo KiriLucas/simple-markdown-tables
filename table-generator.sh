@@ -13,7 +13,7 @@ count_character() {
 get_row_counting() {
     local rows=$1
     local splitter_counter
-    splitter_counter=$(count_character "$rows" ":")
+    splitter_counter=$(count_character "$rows" "¨")
 
     echo $((splitter_counter + 1))
 }
@@ -28,7 +28,7 @@ create_rows() {
     total_rows=$(get_row_counting "$rows")
     row_counter=0
 
-    IFS='-' read -r -a rows_list <<<"${rows#-}"
+    IFS='^' read -r -a rows_list <<<"${rows#^}"
     while [ $row_counter -lt "$total_rows" ]; do
         local row=${rows_list[$row_counter]}
         
@@ -37,7 +37,7 @@ create_rows() {
             continue
         fi
 
-        local new_row="${row//:/" | "}"
+        local new_row="${row//¨/" | "}"
         parsed+="| $new_row |\n"
 
         ((row_counter++))
@@ -49,7 +49,7 @@ create_rows() {
 get_header_counting() {
     local columns=$1
     local splitter_counter
-    splitter_counter=$(count_character "$columns" ":")
+    splitter_counter=$(count_character "$columns" "¨")
 
     echo $((splitter_counter + 1))
 }
@@ -61,7 +61,7 @@ create_columns() {
     local separators
     local new_header
 
-    new_header="${columns//:/"** | **"}"
+    new_header="${columns//¨/"** | **"}"
     final_header="| **${new_header^^}** |"
     separators=$(build_separator "$final_header")
 
@@ -115,7 +115,7 @@ create_table() {
     echo -e "$table_columns\n$table_rows"
 }
 
-sample_headers="header1:header2:header3"
-sample_rows="-column1:column2:column3-columnA:columnB:columnC-columnX:columnY:columnZ"
+sample_headers="header1¨header2¨header3"
+sample_rows="^column1¨column2¨column3^columnA¨columnB¨columnC^columnX¨columnY¨columnZ"
 
 create_table "${1:-"$sample_headers"}" "${2:-"$sample_rows"}"
