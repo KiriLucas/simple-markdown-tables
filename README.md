@@ -7,18 +7,17 @@ A simple markdown generator I made for my own needs, I intend on expanding its c
 - Generates a markdown table with N columns and rows
 - Outputs the generated table to the terminal
 - Automatically centers all columns and rows contents
-- Hardcoded row and column variable (must be edited everytime a table needs to be generated)
 - No unit tests
 
 ### <b>Planned improvements</b>
 - Auto formatter 
     - The outputted table will be automatically formatted to be human readable
     - This can be used as a separate feature (table formatter)
-- Customizable position
+- Customizable header position
     - The generator should accept a position parameter instead of always centralizing the entire table
 - Input from file
     - The generator should accept a set of files extensions as the input
-        - CSV, JSON, Custom extension
+        - CSV, JSON, custom extension
 - Interactive CLI
 
 <hr>
@@ -35,4 +34,4 @@ A simple markdown generator I made for my own needs, I intend on expanding its c
 
 3. Run `bash table-generator.sh` on the terminal
 4. Copy the console output
-5. Profit!
+5. Pasta it on a markdown document
